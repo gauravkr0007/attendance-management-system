@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan QR Code</title>
+</head>
+<body>
+    <h1>Scan QR Code to Mark Attendance</h1>
+    <div id="qrScanner"></div>
+
+    <script src="https://rawgit.com/cozmo/jsQR/master/dist/jsQR.js"></script>
+    <script>
+        // Function to handle QR code scanning
+        function scanQRCode() {
+            const videoElement = document.createElement('video');
+            const qrScanner = document.getElementById('qrScanner');
+
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                .then((stream) => {
+                    videoElement.srcObject = stream;
+                    videoElement.setAttribute('playsinline', true);
+                    videoElement.play();
+                    qrScanner.appendChild(videoElement);
+                    requestAnimationFrame(scanFrame);
+                })
+                .catch((error) => {
+                    console.error('Error accessing camera:', error);
+                });
+
+            function scanFrame() {
+                const canvasElement = document.createElement('canvas');
+                const canvas = canvasElement.getContext('2d');
+
+                canvasElement.width = videoElement.videoWidth;
+                canvasElement.height = videoElement.videoHeight;
+                canvas.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+
+                const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+                if (code) {
+                    console.log('QR code detected:', code.data);
+
+                    // Send QR code data to the server
+                    fetch('/markAttendance', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ classId: code.data, studentId: '<%= stud_id %>', instructorId: '<%= instructor_id %>' })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to mark attendance');
+                        }
+                        console.log('Attendance marked successfully');
+                        return response.text();
+                    })
+                    .then(data => console.log(data))
+                    .catch(error => console.error('Error marking attendance:', error));
+
+                    return;
+                }
+
+                requestAnimationFrame(scanFrame);
+            }
+        }
+
+        // Call the function to start scanning
+        scanQRCode();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan QR Code</title>
+    <script src="https://cdn.jsdelivr.net/npm/instascan@2"></script>
+</head>
+<body>
+    <h1>Scan QR Code to Mark Attendance</h1>
+    <video id="preview"></video>
+    <script>
+        let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+        scanner.addListener('scan', function (content) {
+            console.log(content); // Content of the scanned QR code
+            // Send the content to the server to mark attendance
+            fetch('/markAttendance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ class_id: content }) // Assuming classId is encoded in QR code content
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Attendance marked successfully');
+                    alert('Attendance marked successfully');
+                } else {
+                    console.error('Failed to mark attendance');
+                    alert('Failed to mark attendance');
+                }
+            })
+            .catch(error => {
+                console.error('Error marking attendance:', error);
+                alert('Error marking attendance');
+            });
+        });
+        Instascan.Camera.getCameras()
+        .then(cameras => {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            } else {
+                console.error('No cameras found');
+                alert('No cameras found');
+            }
+        })
+        .catch(error => {
+            console.error('Error accessing camera:', error);
+            alert('Error accessing camera');
+        });
+    </script>
+</body>
+</html> -->

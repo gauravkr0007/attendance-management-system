@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= user.role %> Dashboard</title>
+</head>
+<body>
+    <h2>Welcome <%= user.full_name %> to Admin Dashboard</h2>
+    <p>Email: <%= user.email %></p>
+    <div class="container">
+        <p><a href="/admin/courses">Courses</a></p>
+        <p><a href="/admin/students-data">Students</a></p>
+        <p><a href="/admin/teachers">Teachers</a></p>
+        <p><a href="/admin/subjects">Subjects</a></p>
+        <p><a href="/admin/scheduleclasses">Schedule Classes</a></p>
+        <p><a href="#">Attendance </a></p>
+    </div>
+    <a href="/logout">Logout</a> 
+</body>
+</html>

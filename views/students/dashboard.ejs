@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= user.role %> Dashboard</title>
+</head>
+<body>
+    <h2>Welcome <%= user.full_name %> to <%= user.role %> Dashboard</h2>
+    <p>Email: <%= user.email %></p>
+    <p><a href="#">Classes Scheduled</a></p>
+    <p><a href="/students/scanner">Scanner</a></p>
+    <p><a href="#">View Attendance</a></p>
+    <a href="/logout">Logout</a>
+</body>
+</html>

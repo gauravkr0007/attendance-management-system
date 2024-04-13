@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Class</title>
+</head>
+<body>
+    <h1>Schedule Class</h1>
+    <form action="/scheduleClass" method="POST">
+        <label for="courseId">Course ID:</label>
+        <input type="text" id="courseId" name="courseId" required><br><br>
+        <label for="subjectId">Subject ID:</label>
+        <input type="text" id="subjectId" name="subjectId" required><br><br>
+        <label for="classDate">Class Date:</label>
+        <input type="date" id="classDate" name="classDate" required><br><br>
+        <label for="startTime">Start Time:</label>
+        <input type="time" id="startTime" name="startTime" required><br><br>
+        <label for="endTime">End Time:</label>
+        <input type="time" id="endTime" name="endTime" required><br><br>
+        <input type="submit" value="Schedule">
+    </form>
+</body>
+</html>

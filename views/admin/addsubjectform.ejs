@@ -1,0 +1,52 @@
+<!-- form.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Subject Form</title>
+</head>
+<body>
+    <h1>Add Subject</h1>
+    <form action="/addSubject" method="post">
+        <label for="subjectCode">Subject Code:</label>
+        <input type="text" id="subjectCode" name="subjectCode" required><br><br>
+        
+        <label for="subjectName">Subject Name:</label>
+        <input type="text" id="subjectName" name="subjectName" required><br><br>
+        
+        <label for="courseId">Courses</label>
+        <!-- <input type="text" id="courseId" name="courseId" required><br><br> -->
+        <select name="course_id" id="course_id" required>
+            <% rows.forEach((eachData) =>{ %>
+                <option value="<%- eachData.course_id %>"><%- eachData.course_name %></option>
+            <% }) %>
+        </select>
+        
+        <label for="instructorId">Instructor Name</label>
+        <!-- <input type="text" id="instructorId" name="instructorId" required><br><br> -->
+        <select name="instructor_id" id="instructor_id" required>
+            <% rows.forEach((eachData) =>{ %>
+                <option value="<%- eachData.instructor_id %>"><%- eachData.full_name %></option>
+            <% }) %>
+        </select>
+        
+        <label for="credits">Credits:</label>
+        <input type="number" id="credits" name="credits" required><br><br>
+        
+        <label for="semester">Semester:</label>
+        <select id="semester" name="semester" required>
+            <option value="1">1st</option>
+            <option value="2">2nd</option>
+            <option value="3">3rd</option>
+            <option value="4">4th</option>
+            <option value="5">5th</option>
+            <option value="6">6th</option>
+            <option value="7">7th</option>
+            <option value="8">8th</option>
+        </select><br><br>
+        
+        <input type="submit" value="Add Subject">
+    </form>
+</body>
+</html>
